@@ -1,4 +1,7 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+
 #include <vector>
 using namespace std;
 
@@ -49,8 +52,22 @@ vector<vector<float>> multiplicacionBloques(vector<vector<float>> A,vector<vecto
     return result;
 }
 
+ vector<vector<float>> matrixGen(int fil , int col){
+    vector<vector<int>> matriz(fil, vector<int>(col, 0));
+
+
+    // Llenar la matriz con números aleatorios
+    for (int i = 0; i < fil; i++) {
+        for (int j = 0; j < col; j++) {
+            matriz[i][j] = rand() % 100; // Números aleatorios entre 0 y 99
+        }
+    }
+    return matriz;
+ }
 
 int main(){
+    srand(time(0));
+
     vector<vector<float>> A={{1, 2, 3,4},
                             {4, 5, 6,7},
                             {7, 8, 9,10},
