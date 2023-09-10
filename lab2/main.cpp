@@ -1,8 +1,6 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
-
 #include <vector>
+#include <chrono>
 using namespace std;
 
 vector<vector<float>> clasicMultiplicacion(vector<vector<float>> A,vector<vector<float>> B){
@@ -51,48 +49,55 @@ vector<vector<float>> multiplicacionBloques(vector<vector<float>> A,vector<vecto
 
     return result;
 }
+vector<vector<float>> matrixGen(int fil , int col){
+    vector<vector<float>> matriz(fil, vector<float>(col, 0));
 
- vector<vector<float>> matrixGen(int fil , int col){
-    vector<vector<int>> matriz(fil, vector<int>(col, 0));
 
-
-    // Llenar la matriz con números aleatorios
+    
     for (int i = 0; i < fil; i++) {
         for (int j = 0; j < col; j++) {
-            matriz[i][j] = rand() % 100; // Números aleatorios entre 0 y 99
+            matriz[i][j] = rand() % 100; 
         }
     }
     return matriz;
  }
 
 int main(){
-    srand(time(0));
-
-    vector<vector<float>> A={{1, 2, 3,4},
-                            {4, 5, 6,7},
-                            {7, 8, 9,10},
-                            {7, 8, 9,10}};
-    vector<vector<float>> B={{7, 8,9,10},
-                            {9, 10,11,12},
-                            {11, 12,13,14},
-                            {11, 12,13,14}};
+	
+    int test;
+    cout<<"Colocar, 0 multiplicacion clasica, 1 multiplicacion bloques:";
+    cin>>test;
+    int temp,filA,colB;
+    cout<<"Numero de columnas matrixA y filas matrix B:";
+    cin>>temp;	
+    cout<<"Numero de filas matrixA:";
+    cin>>filA;
+    cout<<"Numero de columnas matrixB:";
+    cin>>colB;
     
-    vector<vector<float>> res=clasicMultiplicacion(A,B);
+    vector<vector<float>> A=matrixGen(filA,temp);
+    vector<vector<float>> B=matrixGen(temp,colB);
     
-
-
-     for (const auto& fila : res) {
-        for (int elemento : fila) {
-            cout << elemento << " ";
-        }
-        cout << endl;
+    if (test==0){
+    	auto start = std::chrono::high_resolution_clock::now();
+    
+        vector<vector<float>> res=clasicMultiplicacion(A,B);
+    
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> duration = end - start;
+        std::cout << "Tiempo de ejecución: " << duration.count() << " sec" << std::endl;
+    
     }
     
-    res=multiplicacionBloques(A,B,3);
-    for (const auto& fila : res) {
-        for (int elemento : fila) {
-            cout << elemento << " ";
-        }
-        cout << endl;
+    if (test == 1){
+    	auto start1 = std::chrono::high_resolution_clock::now();
+    
+        vector<vector<float>>  res2 =multiplicacionBloques(A,B,40);
+    
+        auto end2 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> duration2 = end2 - start1;
+        std::cout << "Tiempo de ejecución: " << duration2.count() << " sec" << std::endl;
+    
     }
+   	
 }
